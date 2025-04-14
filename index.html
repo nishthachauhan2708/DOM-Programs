@@ -1,0 +1,121 @@
+<textarea id="textArea" maxlength="100"></textarea>
+<p>Characters: <span id="charCount">0</span>/100</p>
+
+<script>
+  const textArea = document.getElementById("textArea");
+  const charCount = document.getElementById("charCount");
+
+  textArea.addEventListener("input", () => {
+    let count = textArea.value.length;
+    charCount.textContent = count;
+    charCount.style.color = count >= 100 ? "red" : "black";
+  });
+</script>
+
+<button id="darkModeToggle">Toggle Dark Mode</button>
+
+<script>
+  const button = document.getElementById("darkModeToggle");
+  const body = document.body;
+
+  button.addEventListener("click", () => {
+    body.classList.toggle("dark-mode");
+    localStorage.setItem("darkMode", body.classList.contains("dark-mode"));
+  });
+
+  if (localStorage.getItem("darkMode") === "true") {
+    body.classList.add("dark-mode");
+  }
+</script>
+
+<style>
+  .dark-mode {
+    background-color: black;
+    color: white;
+  }
+</style>
+
+<input type="text" id="itemInput" placeholder="Enter item">
+<button id="addItem">Add Item</button>
+<ul id="itemList"></ul>
+
+<script>
+  const input = document.getElementById("itemInput");
+  const addButton = document.getElementById("addItem");
+  const list = document.getElementById("itemList");
+
+  addButton.addEventListener("click", () => {
+    if (input.value.trim() === "") return;
+
+    const li = document.createElement("li");
+    li.textContent = input.value;
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "X";
+    deleteBtn.style.marginLeft = "10px";
+    deleteBtn.onclick = () => li.remove();
+
+    li.appendChild(deleteBtn);
+    list.appendChild(li);
+    input.value = "";
+  });
+</script>
+
+<img id="preview" src="garden.jpg" height="200">
+<div id="thumbnails">
+  <img src="sunflower.jpeg" height="200">
+  <img src="sunflower&bee.webp" height="200">
+  <img src="bee.jpg" height="200">
+</div>
+
+<script>
+  const preview = document.getElementById("preview");
+
+  document.getElementById("thumbnails").addEventListener("click", (e) => {
+    if (e.target.tagName === "IMG") {
+      preview.src = e.target.src;
+    }
+  });
+</script>
+
+<div id="dragBox" draggable="true">Drag Me</div>
+<div id="dropZone">Drop Here</div>
+
+<script>
+  const dragBox = document.getElementById("dragBox");
+  const dropZone = document.getElementById("dropZone");
+
+  dragBox.addEventListener("dragstart", (e) => {
+    e.dataTransfer.setData("text", "dragBox");
+  });
+
+  dropZone.addEventListener("dragover", (e) => e.preventDefault());
+
+  dropZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropZone.appendChild(dragBox);
+    dropZone.style.backgroundColor = "lightgreen";
+  });
+</script>
+
+<style>
+  #dragBox {
+    width: 100px;
+    height: 100px;
+    background: blue;
+    color: white;
+    text-align: center;
+    line-height: 100px;
+    cursor: grab;
+  }
+
+  #dropZone {
+    width: 200px;
+    height: 200px;
+    border: 2px dashed black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+  }
+</style>
